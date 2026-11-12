@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyecto de Robótica Educativa Reutilizable – Colegio Martin Luther King</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400..800&family=Poppins:wght@400;600&display=swap">
+<style>
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%;background:#121110;overflow:hidden;font-family:Poppins,Arial,sans-serif}
+  #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{width:1920px;height:1080px;position:relative;transform-origin:center center;flex:none}
+  #stage>section{position:absolute;inset:0;width:1920px;height:1080px;opacity:0;visibility:hidden;transition:opacity .35s ease;overflow:hidden}
+  #stage>section.active{opacity:1;visibility:visible}
+  h1,h2,h3{font-weight:600}
+  p{font-size:32px;line-height:1.4}
+  ul{padding-left:1.1em} li{margin:.15em 0}
+  table{border-collapse:collapse}
+  th,td{padding:.35em .6em;border-bottom:1px solid #D9D3C7}
+  th{font-weight:600;border-bottom:2px solid #171717}
+  a{color:inherit}
+  .vid iframe{width:100%;height:100%;border:0;display:block}
+  #ui{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#F6F4EF;font-size:14px;opacity:.15;transition:opacity .2s}
+  #ui:hover{opacity:1}
+  #ui button{background:#FCDC29;color:#171717;border:0;border-radius:6px;padding:6px 12px;font:600 14px Poppins,Arial,sans-serif;cursor:pointer}
+  #bar{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+  #bar div{height:100%;background:#FCDC29;width:0;transition:width .3s}
+  .pnum{position:absolute;right:56px;bottom:30px;font-size:24px;color:#8F897F}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+<section id="cover" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins, Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<div style="position:absolute;left:0;top:0;width:1920px;height:24px;background:#FCDC29"></div>
+<p style="font-size:32px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Colegio Martin Luther King · Propuesta a Dirección</p>
+<div style="display:flex;flex-direction:column;gap:40px">
+<h1 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:120px;font-weight:800;line-height:1.05;color:#F6F4EF">Robótica educativa<br>reutilizable</h1>
+<p style="font-size:44px;line-height:1.3;color:#D9D5CC;width:1300px">Kits abiertos con impresión 3D y micro:bit, de Preescolar a Secundaria</p>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:end">
+<p style="font-size:32px;line-height:1.4;color:#D9D5CC">M. en C. Abraham Gómez Contreras<br>Noviembre 2026</p>
+<p style="font-size:32px;font-weight:600;color:#FCDC29">Una Educación con Valores para un Gran Futuro</p>
+</div>
+
+</section>
+
+<section id="resumen" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:64px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Resumen ejecutivo</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;width:1600px">Un taller de robótica completo por menos de la mitad del costo de un kit comercial</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FCDC29;padding:48px;border-radius:24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1">15</p>
+<p style="font-size:32px;line-height:1.4;color:#171717">kits reutilizables para 30 alumnos (2 por kit)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF7;padding:48px;border-radius:24px;border:2px solid #E4DFD3">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1">$28,390</p>
+<p style="font-size:32px;line-height:1.4;color:#404040">MXN en equipo y materiales, impresora incluida (más operador)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF7;padding:48px;border-radius:24px;border:2px solid #E4DFD3">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1">14 días</p>
+<p style="font-size:32px;line-height:1.4;color:#404040">para imprimir los 15 kits con una impresora</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#404040;width:1600px">Los mismos kits comprados hechos costarían unos <b>$61,700</b>; con LEGO SPIKE Prime, unos <b>$189,000</b>.</p>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Colegio Martin Luther King · Robótica educativa</p>
+
+</section>
+
+<section id="porque" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">¿Por qué ahora?</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">La robótica forma lo que nuestra misión promete</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div style="display:flex;flex-direction:column;gap:20px;background:#FFFDF7;padding:48px;border-radius:24px;border-top:12px solid #FCDC29">
+<span style="font-size:56px;line-height:1">💡</span>
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Pensamiento lógico</h3>
+<p style="font-size:28px;line-height:1.45;color:#404040">Secuencias, condiciones y datos, de la programación por bloques a Python.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;background:#FFFDF7;padding:48px;border-radius:24px;border-top:12px solid #F6C143">
+<span style="font-size:56px;line-height:1">👥</span>
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Trabajo en equipo</h3>
+<p style="font-size:28px;line-height:1.45;color:#404040">Parejas que diseñan, prueban, fallan y mejoran juntas: responsabilidad compartida.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;background:#FFFDF7;padding:48px;border-radius:24px;border-top:12px solid #BAEA85">
+<span style="font-size:56px;line-height:1">🔧</span>
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Cultura de reutilizar</h3>
+<p style="font-size:28px;line-height:1.45;color:#404040">Se arma, se desarma y se reutiliza: cero desechables y piezas reparables en casa.</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#404040">Un mismo kit sirve de 3.º de Primaria a 3.º de Secundaria: el taller crece con el alumno.</p>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Colegio Martin Luther King · Robótica educativa</p>
+
+</section>
+
+<section id="contexto" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:64px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Qué cambió en el mercado</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;width:1600px">LEGO retira su línea SPIKE: comprar hoy kits cerrados es apostar a una plataforma que se apaga</h2>
+</div>
+<div style="position:relative;display:flex;gap:24px;padding:48px 0 0">
+<div style="position:absolute;left:0;top:20px;width:1664px;height:4px;background:#5A554F"></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-left:6px solid #FCDC29;padding:0 0 0 24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#FCDC29">Jun 2026</p>
+<p style="font-size:28px;line-height:1.4;color:#D9D5CC">LEGO deja de vender SPIKE directamente</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-left:6px solid #F6C143;padding:0 0 0 24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#F6C143">2027–28</p>
+<p style="font-size:28px;line-height:1.4;color:#D9D5CC">Última temporada de FIRST LEGO League con SPIKE</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-left:6px solid #F6C143;padding:0 0 0 24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#F6C143">Jun 2028</p>
+<p style="font-size:28px;line-height:1.4;color:#D9D5CC">Fin de refacciones oficiales</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-left:6px solid #BAEA85;padding:0 0 0 24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#BAEA85">Jun 2031</p>
+<p style="font-size:28px;line-height:1.4;color:#D9D5CC">Fin de actualizaciones de la app</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#D9D5CC;width:1600px">El reemplazo de LEGO solo se vende por distribuidor y con cotización. Una plataforma abierta no tiene fecha de caducidad.</p>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#A8A39A">Fuente: LEGO Education, aviso de retiro de SPIKE (2026)</p>
+
+</section>
+
+<section id="opciones" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Opciones evaluadas · costo de 15 kits (MXN)</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Imprimir nuestros kits es la opción más barata</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;align-items:center;gap:32px">
+<p style="width:480px;font-size:28px;font-weight:600;line-height:1.3">Impresión 3D + micro:bit<br><span style="color:#8A6D00">Recomendada</span></p>
+<div style="width:135px;height:64px;background:#FCDC29;border-radius:8px"></div>
+<p style="font-size:32px;font-weight:600">$28,390</p>
+</div>
+<div style="display:flex;align-items:center;gap:32px">
+<p style="width:480px;font-size:28px;line-height:1.3">micro:bit + piezas compatibles compradas</p>
+<div style="width:154px;height:64px;background:#C9C3B6;border-radius:8px"></div>
+<p style="font-size:32px">$32,342</p>
+</div>
+<div style="display:flex;align-items:center;gap:32px">
+<p style="width:480px;font-size:28px;line-height:1.3">Makeblock mBot2</p>
+<div style="width:285px;height:64px;background:#C9C3B6;border-radius:8px"></div>
+<p style="font-size:32px">$60,010</p>
+</div>
+<div style="display:flex;align-items:center;gap:32px">
+<p style="width:480px;font-size:28px;line-height:1.3">micro:bit + kit ELECFREAKS Nezha</p>
+<div style="width:293px;height:64px;background:#C9C3B6;border-radius:8px"></div>
+<p style="font-size:32px">$61,716</p>
+</div>
+<div style="display:flex;align-items:center;gap:32px">
+<p style="width:480px;font-size:28px;line-height:1.3">LEGO Education SPIKE Prime</p>
+<div style="width:900px;height:64px;background:#6B665E;border-radius:8px"></div>
+<p style="font-size:32px">$189,297</p>
+</div>
+</div>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Precios de Amazon México, Mercado Libre y UNIT Electronics, 11 nov 2026; sin envío</p>
+
+</section>
+
+<section id="propuesta" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">La propuesta</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Cada kit: piezas impresas en el colegio y electrónica comercial</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF7;padding:48px;border-radius:24px;border:2px solid #E4DFD3">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Se imprime</h3>
+<ul style="font-size:28px;line-height:1.5;color:#404040">
+<li>98 piezas compatibles con LEGO Technic</li>
+<li>Vigas, ladrillos, engranes y rines</li>
+<li>Soportes para servos y motores</li>
+<li>202 g de plástico PLA · 15 h por kit</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF7;padding:48px;border-radius:24px;border:2px solid #E4DFD3">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Se compra</h3>
+<ul style="font-size:28px;line-height:1.5;color:#404040">
+<li>micro:bit V2 (el “cerebro”)</li>
+<li>Tarjeta Robot:bit con batería</li>
+<li>2 servos, 2 motores con rueda</li>
+<li>Sensor de distancia y de línea</li>
+<li>Ejes, pines y organizador</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#1E1C1B;padding:48px;border-radius:24px">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#FCDC29">Todo abierto</h3>
+<ul style="font-size:28px;line-height:1.5;color:#D9D5CC">
+<li>Diseños libres (Technic.scad, MachineBlocks)</li>
+<li>Programación gratis en el navegador</li>
+<li>Bloques en Primaria, Python en Secundaria</li>
+<li>Se mezcla con LEGO original</li>
+</ul>
+</div>
+</div>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Colegio Martin Luther King · Robótica educativa</p>
+
+</section>
+
+<section id="proyectos" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Qué construyen los alumnos</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">16 proyectos con el mismo kit, de 1.º de Primaria a 3.º de Secundaria</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FCDC29;padding:48px;border-radius:24px">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Primaria baja</h3>
+<p style="font-size:24px;font-weight:600">1.º–3.º · sin electrónica</p>
+<ul style="font-size:28px;line-height:1.5">
+<li>Ruta del robot humano</li>
+<li>Máquinas simples</li>
+<li>Carrito de impulso</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#F6C143;padding:48px;border-radius:24px">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Primaria alta</h3>
+<p style="font-size:24px;font-weight:600">4.º–6.º · bloques MakeCode</p>
+<ul style="font-size:28px;line-height:1.5">
+<li>Semáforo y cruce</li>
+<li>Mascota robot</li>
+<li>Estación meteorológica</li>
+<li>Seguidor de línea</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#BAEA85;padding:48px;border-radius:24px">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700">Secundaria</h3>
+<p style="font-size:24px;font-weight:600">1.º–3.º · bloques y Python</p>
+<ul style="font-size:28px;line-height:1.5">
+<li>Brazo robótico</li>
+<li>Carro por radio</li>
+<li>Invernadero automático</li>
+<li>Reto tipo FIRST LEGO League</li>
+<li>Gestos con inteligencia artificial</li>
+</ul>
+</div>
+</div>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Detalle de los 16 proyectos en el documento de investigación</p>
+
+</section>
+
+<section id="preescolar" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Preescolar · 3 a 6 años</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;width:1600px">Robótica sin pantallas: bloques grandes, juego corporal y un robot de piso</h2>
+</div>
+<div style="display:flex;gap:40px;align-items:start">
+<div style="width:1180px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #FCDC29">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">Soy un robot</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">3–4 años · seguir flechas en un tapete</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #FCDC29">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">Torres de patrones</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">3–5 años · seriación y conteo</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #F6C143">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">Rampas y carritos</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">4–5 años · causa y efecto</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #F6C143">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">Llevar al robot a casa</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">4–6 años · secuencias de 2 a 5 pasos</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #BAEA85">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">El robot cuenta un cuento</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">5–6 años · secuencia y lenguaje oral</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:32px;border-radius:20px;border-top:10px solid #BAEA85">
+<h3 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:32px;font-weight:700">Engranes gigantes</h3>
+<p style="font-size:24px;line-height:1.4;color:#404040">5–6 años · observar cómo giran</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1E1C1B;padding:40px;border-radius:24px">
+<p style="font-size:24px;font-weight:600;color:#FCDC29;text-transform:uppercase;letter-spacing:2px">Grupo de 24 niños</p>
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:800;line-height:1;color:#F6F4EF">≈ $3,430</p>
+<p style="font-size:24px;line-height:1.45;color:#D9D5CC">4 robots Escornabot (libres), 300 bloques jumbo y 1 caja DUPLO. Un robot comercial Bee-Bot cuesta $2,840.</p>
+<p style="font-size:24px;line-height:1.45;color:#D9D5CC">Sin piezas pequeñas: el robot se entrega armado y se usa solo con botones.</p>
+</div>
+</div>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Tapete cuadriculado de lona por cotizar</p>
+
+</section>
+
+<section id="videos1" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins,Arial,sans-serif;padding:96px 128px 140px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Videos · Preescolar</p>
+<h2 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:64px;font-weight:700;line-height:1.1">Preescolar: robots de piso en acción</h2></div>
+<div style="display:flex;gap:48px"><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/txyS1GtaubE?start=0&amp;end=179&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #FCDC29"></div>
+<p style="font-size:24px;font-weight:600;color:#FCDC29">PREESCOLAR · fragmento 0:00–2:59 (179 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Robot de piso con tapete de números</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Actividad de seriación con Bee-Bot; la misma dinámica sirve con Escornabot. Fuente: TILK Education.</p>
+</div><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/GgKP_Ejb0Hw?start=498&amp;end=550&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #FCDC29"></div>
+<p style="font-size:24px;font-weight:600;color:#FCDC29">PREESCOLAR · fragmento 8:18–9:10 (52 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Escornabot en marcha</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">El robot libre programado con sus botones de flechas, capítulo “Puesta en marcha”. Fuente: BricoGeek.</p>
+</div></div>
+<p class="foot" style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#A8A39A">Cada video reproduce solo el fragmento indicado y se detiene al terminar</p>
+</section>
+<section id="videos2" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins,Arial,sans-serif;padding:96px 128px 140px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Videos · Kits con micro:bit</p>
+<h2 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:64px;font-weight:700;line-height:1.1">Primaria y Secundaria: kits con micro:bit</h2></div>
+<div style="display:flex;gap:48px"><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/K_aekTyYhsU?start=0&amp;end=61&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #BAEA85"></div>
+<p style="font-size:24px;font-weight:600;color:#BAEA85">PRIMARIA · fragmento 0:00–1:01 (61 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">20 modelos con bloques y micro:bit</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Un mismo kit de bloques convertido en 20 proyectos distintos. Fuente: ELECFREAKS.</p>
+</div><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/2a8B5BOrrQg?start=721&amp;end=859&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #BAEA85"></div>
+<p style="font-size:24px;font-weight:600;color:#BAEA85">PRIMARIA Y SECUNDARIA · fragmento 12:01–14:19 (138 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Seguidor de línea con micro:bit</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Kit Nezha con bloques compatibles con LEGO, capítulo del sensor de línea. Fuente: Electronic Clinic.</p>
+</div></div>
+<p class="foot" style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#A8A39A">Cada video reproduce solo el fragmento indicado y se detiene al terminar</p>
+</section>
+<section id="videos3" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins,Arial,sans-serif;padding:96px 128px 140px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Videos · Impresión 3D</p>
+<h2 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:64px;font-weight:700;line-height:1.1">¿Las piezas impresas aguantan?</h2></div>
+<div style="display:flex;gap:48px"><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/XwPLn7XWOw4?start=59&amp;end=123&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #F6C143"></div>
+<p style="font-size:24px;font-weight:600;color:#F6C143">IMPRESIÓN 3D · fragmento 0:59–2:03 (64 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Ladrillos compatibles impresos</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Ventajas, límites, costos y calibración (video en español). Fuente: Prusa 3D.</p>
+</div><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/VIiu9Heh6G4?start=140&amp;end=194&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #F6C143"></div>
+<p style="font-size:24px;font-weight:600;color:#F6C143">IMPRESIÓN 3D · fragmento 2:20–3:14 (54 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Piezas impresas contra originales</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Prueba de flexión de engranes y vigas impresas frente a LEGO. Fuente: RoboticLife.</p>
+</div></div>
+<p class="foot" style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#A8A39A">Cada video reproduce solo el fragmento indicado y se detiene al terminar</p>
+</section>
+<section id="videos4" style="background:#1E1C1B;color:#F6F4EF;font-family:Poppins,Arial,sans-serif;padding:96px 128px 140px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:600;color:#FCDC29;letter-spacing:2px;text-transform:uppercase">Videos · Secundaria</p>
+<h2 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:64px;font-weight:700;line-height:1.1">Robots libres impresos en 3D</h2></div>
+<div style="display:flex;gap:48px"><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/34v7R0FrSNE?start=240&amp;end=335&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #BAEA85"></div>
+<p style="font-size:24px;font-weight:600;color:#BAEA85">SECUNDARIA · fragmento 4:00–5:35 (95 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">Otto: el robot que baila</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Robot bípedo libre e impreso en 3D, armado y en movimiento. Fuente: Otto DIY.</p>
+</div><div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div class="vid" data-src="https://www.youtube-nocookie.com/embed/JCqkuDWNzIg?start=55&amp;end=152&amp;rel=0&amp;modestbranding=1" style="width:808px;height:454px;background:#000;border-radius:16px;overflow:hidden;border-top:8px solid #BAEA85"></div>
+<p style="font-size:24px;font-weight:600;color:#BAEA85">SECUNDARIA · fragmento 0:55–2:32 (97 s)</p>
+<h3 style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:40px;font-weight:700;line-height:1.15">SMARS: robot oruga modular</h3>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">Robot impreso sin tornillos con módulos intercambiables. Fuente: TuitXY.</p>
+</div></div>
+<p class="foot" style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#A8A39A">Cada video reproduce solo el fragmento indicado y se detiene al terminar</p>
+</section>
+<section id="inversion" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Inversión</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;width:1600px">$28,390 en equipo y materiales, más el operador de la impresora</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<table style="width:1040px;font-size:26px;color:#171717;font-family:Poppins, Arial, sans-serif">
+<tr><th style="width:70%;text-align:left">Concepto</th><th style="width:30%;text-align:right">MXN</th></tr>
+<tr><td>Impresora 3D Bambu Lab A1</td><td style="text-align:right">$7,229</td></tr>
+<tr><td>Filamento PLA (5 kg)</td><td style="text-align:right">$1,062</td></tr>
+<tr><td>15 micro:bit V2</td><td style="text-align:right">$7,581</td></tr>
+<tr><td>15 tarjetas Robot:bit con batería</td><td style="text-align:right">$4,905</td></tr>
+<tr><td>Servos y motores</td><td style="text-align:right">$3,246</td></tr>
+<tr><td>Sensores de distancia y de línea</td><td style="text-align:right">$1,910</td></tr>
+<tr><td>Ejes, pines, cables y organizadores</td><td style="text-align:right">$2,456</td></tr>
+<tr style="background:#FCDC29"><td><b>Total equipo y materiales</b></td><td style="text-align:right"><b>$28,390</b></td></tr>
+</table>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF7;padding:36px;border-radius:24px;border:2px solid #E4DFD3">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:800;line-height:1">$1,893</p>
+<p style="font-size:24px;color:#404040">por kit · $946 por alumno</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#1E1C1B;padding:36px;border-radius:24px">
+<p style="font-size:24px;font-weight:600;color:#FCDC29">+ Sueldo del operador (no incluido)</p>
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:800;line-height:1.1;color:#F6F4EF">$2,100 – $17,500</p>
+<p style="font-size:24px;line-height:1.4;color:#D9D5CC">≈ 25 h por horas, o 1 mes de contrato temporal</p>
+</div>
+</div>
+</div>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Con IVA, sin envío · Si ya hay impresora: $21,161 · Sueldo de referencia: $12,000–$14,000 netos/mes</p>
+
+</section>
+
+<section id="calendario" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Calendario propuesto</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Taller funcionando cinco semanas después de aprobar</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px">
+<div style="width:400px"></div>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<p style="font-size:24px;font-weight:600;color:#6B665E">Semana 1</p>
+<p style="font-size:24px;font-weight:600;color:#6B665E">Semana 2</p>
+<p style="font-size:24px;font-weight:600;color:#6B665E">Semana 3</p>
+<p style="font-size:24px;font-weight:600;color:#6B665E">Semana 4</p>
+<p style="font-size:24px;font-weight:600;color:#6B665E">Semana 5</p>
+</div>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="width:400px;font-size:28px">Aprobación y compra</p>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div style="height:56px;background:#1E1C1B;border-radius:8px"></div>
+</div>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="width:400px;font-size:28px">Kit piloto y ajuste</p>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div></div>
+<div style="height:56px;background:#F6C143;border-radius:8px"></div>
+</div>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="width:400px;font-size:28px">Impresión de 14 kits</p>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div></div>
+<div style="grid-column:span 3;height:56px;background:#FCDC29;border-radius:8px"></div>
+</div>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="width:400px;font-size:28px">Capacitación docente</p>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div></div>
+<div></div>
+<div style="grid-column:span 2;height:56px;background:#BAEA85;border-radius:8px"></div>
+</div>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="width:400px;font-size:28px;font-weight:600">Arranque con alumnos</p>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div style="height:56px;background:#1E1C1B;border-radius:8px"></div>
+</div>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#404040">La impresora trabaja de noche y en horario escolar: un kit por día (15 h de impresión).</p>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Fecha de inicio por definir con Dirección: [__]</p>
+
+</section>
+
+<section id="riesgos" style="background:#F6F4EF;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:24px;font-weight:600;color:#8A6D00;letter-spacing:2px;text-transform:uppercase">Riesgos y cómo los cubrimos</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Cinco riesgos, todos con respuesta de bajo costo</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#171717;font-family:Poppins, Arial, sans-serif">
+<tr><th style="width:40%;text-align:left">Riesgo</th><th style="width:60%;text-align:left">Mitigación</th></tr>
+<tr><td>Piezas impresas que no ajustan con LEGO</td><td>Imprimir y probar un kit piloto antes de los otros 14</td></tr>
+<tr><td>Solo 11 tarjetas Robot:bit en existencia</td><td>Completar con tarjeta Wukong (+ $800 en total)</td></tr>
+<tr><td>Pérdida o rotura de piezas</td><td>Organizador numerado por kit; la impresora repone</td></tr>
+<tr><td>Licencias de los diseños</td><td>Usar bibliotecas con licencia libre (MIT) y no vender kits</td></tr>
+<tr><td>Falla de la impresora</td><td>Garantía de 1 año y margen de 15 % de filamento</td></tr>
+</table>
+<p class="foot" style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B665E">Colegio Martin Luther King · Robótica educativa</p>
+
+</section>
+
+<section id="decision" style="background:#FCDC29;color:#171717;font-family:Poppins, Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<p style="font-size:32px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Lo que pedimos a Dirección</p>
+<div style="display:flex;flex-direction:column;gap:48px">
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1.05;width:1600px">Aprobar $28,390 para equipar el taller con 15 kits</h2>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#1E1C1B;padding:40px;border-radius:24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#FCDC29">1. Presupuesto</p>
+<p style="font-size:28px;line-height:1.4;color:#F6F4EF">Impresora, filamento, electrónica y horas del operador</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#1E1C1B;padding:40px;border-radius:24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#FCDC29">2. Espacio</p>
+<p style="font-size:28px;line-height:1.4;color:#F6F4EF">Un lugar ventilado para la impresora y los kits</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#1E1C1B;padding:40px;border-radius:24px">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:44px;font-weight:700;color:#FCDC29">3. Horario</p>
+<p style="font-size:28px;line-height:1.4;color:#F6F4EF">Grupos y docentes para el arranque en la semana 5</p>
+</div>
+</div>
+</div>
+<p style="font-size:32px;font-weight:600">Colegio Martin Luther King · Una Educación con Valores para un Gran Futuro</p>
+
+</section>
+
+</div></div>
+<div id="ui"><button id="prev" aria-label="Anterior">◀</button><button id="next" aria-label="Siguiente">▶</button><span id="count"></span><div id="bar"><div></div></div><button id="fs">Pantalla completa</button></div>
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const slides=[...stage.children].filter(e=>e.tagName==='SECTION');
+  const n=slides.length;
+  
+  function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+k+')';}
+  addEventListener('resize',fit);fit();
+  let cur=0;
+  function loadVideos(s,on){
+    s.querySelectorAll('.vid').forEach(v=>{
+      if(on&&!v.firstChild){const f=document.createElement('iframe');f.src=v.dataset.src;f.title='Video';f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';v.appendChild(f);}
+      if(!on&&v.firstChild){v.innerHTML='';}
+    });
+  }
+  function go(i){
+    i=Math.max(0,Math.min(n-1,i));
+    loadVideos(slides[cur],false);slides[cur].classList.remove('active');
+    cur=i;slides[cur].classList.add('active');loadVideos(slides[cur],true);
+    document.getElementById('count').textContent=(cur+1)+' / '+n;
+    document.querySelector('#bar div').style.width=((cur+1)/n*100)+'%';
+    if(location.hash!=='#'+(cur+1))history.replaceState(null,'','#'+(cur+1));
+  }
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(cur+1);}
+    if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(cur-1);}
+    if(e.key==='Home')go(0); if(e.key==='End')go(n-1);
+    if(e.key==='f'||e.key==='F')toggleFs();
+  });
+  let tx=null;addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(cur+(d<0?1:-1));tx=null;});
+  document.getElementById('prev').onclick=()=>go(cur-1);
+  document.getElementById('next').onclick=()=>go(cur+1);
+  function toggleFs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+  document.getElementById('fs').onclick=toggleFs;
+  function fromHash(){const h=parseInt(location.hash.slice(1));go(isNaN(h)?0:h-1);}
+  addEventListener('hashchange',fromHash);fromHash();
+})();
+</script>
+</body>
+</html>
